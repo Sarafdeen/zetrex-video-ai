@@ -23,7 +23,7 @@ exports.handler = async (event) => {
     const response = await fetch("https://api.replicate.com/v1/models/bytedance/seedance-1-lite/predictions", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${process.env.REPLICATE_API_TOKEN}`,
+        Authorization: ["Bearer", process.env.REPLICATE_API_TOKEN].join(" "),
         "Content-Type": "application/json",
         "Cancel-After": "10m"
       },
