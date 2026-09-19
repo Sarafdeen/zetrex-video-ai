@@ -1,4 +1,6 @@
 # Zetrex Video AI
 Netlify-ready Vite/React frontend + Netlify Function adapter.
-Deploy: npm run build, publish dist, functions netlify/functions.
-Add REPLICATE_API_TOKEN in Netlify environment variables. Actual video generation requires a GPU/model provider; the secret must stay server-side.
+
+Deploy with the Vite build command. The generated site is published from the dist directory, and serverless functions live under netlify/functions.
+
+Set the video provider credential in Netlify Environment Variables. Keep provider credentials server-side and never commit them to the repository.
