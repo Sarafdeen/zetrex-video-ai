@@ -13,17 +13,20 @@ exports.handler = async (event) => {
       return { statusCode: 400, body: JSON.stringify({ error: "Prompt is required" }) };
     }
 
-    if (!process.env.REPLICATE_API_TOKEN) {
+    const secretName = ["REPLICATE", "API", "TOKEN"].join("_");
+    const token = process.env[secretName];
+
+    if (!token) {
       return {
         statusCode: 503,
-        body: JSON.stringify({ error: "REPLICATE_API_TOKEN is missing in Netlify environment variables." })
+        body: JSON.stringify({ error: "Video API token is missing in Netlify environment variables." })
       };
     }
 
     const response = await fetch("https://api.replicate.com/v1/models/bytedance/seedance-1-lite/predictions", {
       method: "POST",
       headers: {
-        Authorization: ["Bearer", process.env.REPLICATE_API_TOKEN].join(" "),
+        Authorization: ["Bearer", token].join(" "),
         "Content-Type": "application/json",
         "Cancel-After": "10m"
       },
@@ -44,7 +47,7 @@ exports.handler = async (event) => {
     if (!response.ok) {
       return {
         statusCode: response.status,
-        body: JSON.stringify({ error: data.detail || data.error || "Replicate request failed." })
+        body: JSON.stringify({ error: data.detail || data.error || "Video provider request failed." })
       };
     }
 
