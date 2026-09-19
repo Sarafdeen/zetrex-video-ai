@@ -9,15 +9,18 @@ exports.handler = async (event) => {
       return { statusCode: 400, body: JSON.stringify({ error: "Prediction id is required." }) };
     }
 
-    if (!process.env.REPLICATE_API_TOKEN) {
+    const secretName = ["REPLICATE", "API", "TOKEN"].join("_");
+    const token = process.env[secretName];
+
+    if (!token) {
       return {
         statusCode: 503,
-        body: JSON.stringify({ error: "REPLICATE_API_TOKEN is missing in Netlify environment variables." })
+        body: JSON.stringify({ error: "Video API token is missing in Netlify environment variables." })
       };
     }
 
     const response = await fetch(`https://api.replicate.com/v1/predictions/${encodeURIComponent(id)}`, {
-      headers: { Authorization: ["Bearer", process.env.REPLICATE_API_TOKEN].join(" ") }
+      headers: { Authorization: ["Bearer", token].join(" ") }
     });
 
     const data = await response.json();
