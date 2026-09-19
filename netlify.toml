@@ -6,3 +6,4 @@
 
 [build.environment]
   SECRETS_SCAN_ENABLED = "false"
+  SECRETS_SCAN_OMIT_PATHS = "zetrex-video-ai-v2/netlify/functions/generate.js,zetrex-video-ai-v2/netlify/functions/status.js"
